@@ -1,0 +1,15 @@
+[Unit]
+Description=Freezer API
+Before=
+After=network.target
+
+[Service]
+Type=simple
+User={{ freezer_user }}
+#Group={{ freezer_group }}
+WorkingDirectory={{ freezer_home }}
+ExecStart=/usr/local/bin/freezer-api
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

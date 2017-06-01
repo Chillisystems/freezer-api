@@ -1,0 +1,14 @@
+---
+
+- name: Start and enable freezer-api
+  service:
+    name: freezer-api
+    state: started
+    enabled: yes
+
+- name: wait for api port
+  wait_for:
+    port: "{{ freezer_port }}"
+    host: "{{ freezer_bind_host }}"
+    state: started
+    timeout: "{{ freezer_wait_for_period }}"

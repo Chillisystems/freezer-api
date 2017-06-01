@@ -1,0 +1,163 @@
+[DEFAULT]
+
+bind_host = {{ freezer_bind_host }}
+bind_port = {{ freezer_port }}
+
+debug = true
+
+use_syslog = true
+
+#syslog_log_facility = LOG_USER
+
+use_stderr = true
+
+# Format string to use for log messages with context. (string value)
+#logging_context_format_string = %(asctime)s.%(msecs)03d %(process)d %(levelname)s %(name)s [%(request_id)s %(user_identity)s] %(instance)s%(message)s
+
+# Format string to use for log messages when context is undefined. (string
+# value)
+#logging_default_format_string = %(asctime)s.%(msecs)03d %(process)d %(levelname)s %(name)s [-] %(instance)s%(message)s
+
+# Additional data to append to log message when logging level for the message
+# is DEBUG. (string value)
+#logging_debug_format_suffix = %(funcName)s %(pathname)s:%(lineno)d
+
+# Prefix each line of exception output with this format. (string value)
+#logging_exception_prefix = %(asctime)s.%(msecs)03d %(process)d ERROR %(name)s %(instance)s
+
+# Defines the format string for %(user_identity)s that is used in
+# logging_context_format_string. (string value)
+#logging_user_identity_format = %(user)s %(tenant)s %(domain)s %(user_domain)s %(project_domain)s
+
+# List of package logging levels in logger=LEVEL pairs. This option is ignored
+# if log_config_append is set. (list value)
+#default_log_levels = amqp=WARN,amqplib=WARN,boto=WARN,qpid=WARN,sqlalchemy=WARN,suds=INFO,oslo.messaging=INFO,iso8601=WARN,requests.packages.urllib3.connectionpool=WARN,urllib3.connectionpool=WARN,websocket=WARN,requests.packages.urllib3.util.retry=WARN,urllib3.util.retry=WARN,keystonemiddleware=WARN,routes.middleware=WARN,stevedore=WARN,taskflow=WARN,keystoneauth=WARN,oslo.cache=INFO,dogpile.core.dogpile=INFO
+
+# Enables or disables publication of error events. (boolean value)
+#publish_errors = false
+
+# The format for an instance that is passed with the log message. (string
+# value)
+#instance_format = "[instance: %(uuid)s] "
+
+# The format for an instance UUID that is passed with the log message. (string
+# value)
+#instance_uuid_format = "[instance: %(uuid)s] "
+
+# Interval, number of seconds, of log rate limiting. (integer value)
+#rate_limit_interval = 0
+
+# Maximum number of logged messages per rate_limit_interval. (integer value)
+#rate_limit_burst = 0
+
+# Log level name used by rate limiting: CRITICAL, ERROR, INFO, WARNING, DEBUG
+# or empty string. Logs with level greater or equal to rate_limit_except_level
+# are not filtered. An empty string means that all levels are filtered. (string
+# value)
+rate_limit_except_level = INFO
+
+# Enables or disables fatal status of deprecations. (boolean value)
+#fatal_deprecations = false
+
+
+[cors]
+
+#
+# From oslo.middleware
+#
+
+# Indicate whether this resource may be shared with the domain received in the
+# requests "origin" header. Format: "<protocol>://<host>[:<port>]", no trailing
+# slash. Example: https://horizon.example.com (list value)
+allowed_origin = * #https://{{ env_external_url }}
+
+# Indicate that the actual request can include user credentials (boolean value)
+#allow_credentials = true
+
+# Indicate which headers are safe to expose to the API. Defaults to HTTP Simple
+# Headers. (list value)
+#expose_headers =
+
+# Maximum cache age of CORS preflight requests. (integer value)
+#max_age = 3600
+
+# Indicate which methods can be used during the actual request. (list value)
+#allow_methods = OPTIONS,GET,HEAD,POST,PUT,DELETE,TRACE,PATCH
+
+# Indicate which header field names may be used during the actual request.
+# (list value)
+#allow_headers =
+
+
+[cors.subdomain]
+
+#
+# From oslo.middleware
+#
+
+# Indicate whether this resource may be shared with the domain received in the
+# requests "origin" header. Format: "<protocol>://<host>[:<port>]", no trailing
+# slash. Example: https://horizon.example.com (list value)
+#allowed_origin = <None>
+
+# Indicate that the actual request can include user credentials (boolean value)
+#allow_credentials = true
+
+# Indicate which headers are safe to expose to the API. Defaults to HTTP Simple
+# Headers. (list value)
+#expose_headers =
+
+# Maximum cache age of CORS preflight requests. (integer value)
+#max_age = 3600
+
+# Indicate which methods can be used during the actual request. (list value)
+#allow_methods = OPTIONS,GET,HEAD,POST,PUT,DELETE,TRACE,PATCH
+
+# Indicate which header field names may be used during the actual request.
+# (list value)
+#allow_headers =
+
+[keystone_authtoken]
+auth_uri = {{ openstack_identity_admin_url }}/v3
+auth_url: {{ openstack_identity_public_url }}/v3
+auth_type = password
+
+service_token_roles_required = true
+
+region_name = {{ openstack_identity_region }}
+
+username = freezer
+password = {{ openstack_identity_freezer_password }}
+
+project_name = service
+project_domain_name = default
+user_domain_name = default
+
+identity_uri = {{ openstack_identity_public_url }}
+
+http_connect_timeout = 100
+http_request_max_retries = 5
+
+[oslo_middleware]
+max_request_body_size = 114688
+secure_proxy_ssl_header = X-Forwarded-Proto
+enable_proxy_headers_parsing = false
+
+[oslo_policy]
+policy_file = policy.json
+
+[paste_deploy]
+config_file = freezer-paste.ini
+
+[storage]
+
+hosts = http://freezer-backend-1:9200
+index = freezer
+
+#timeout = 60
+#retries = 20
+#number_of_replicas = 0
+
+backend = elasticsearch
+
+driver = freezer_api.storage.elastic.ElasticSearchEngine

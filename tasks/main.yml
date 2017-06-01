@@ -1,0 +1,9 @@
+---
+
+- include: install.yml
+
+- include: configure.yml
+
+- include: elasticsearch.yml
+
+- include: start.yml

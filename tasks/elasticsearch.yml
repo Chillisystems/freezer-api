@@ -1,0 +1,6 @@
+---
+
+- name: ensure freezer database has been synced
+  run_once: true
+  command: /usr/local/bin/freezer-manage -y db sync
+  failed_when: false

@@ -1,0 +1,26 @@
+---
+- name: setup group
+  group:
+   name: '{{ freezer_group }}'
+   system: yes
+
+- name: Setup user
+  user:
+   name: '{{ freezer_user }}'
+   system: yes
+   group: '{{ freezer_group }}'
+
+- name: Create /etc/freezer directory
+  file:
+    state: directory
+    owner: '{{ freezer_user }}'
+    path: '{{ freezer_home }}'
+
+- name: Install freezer-api
+  pip:
+    name: '{{ item.name }}'
+    editable: false
+  with_items:
+    - name: "git+https://github.com/openstack/freezer.git@{{ freezer_revision }}"
+    - name: "git+https://github.com/openstack/freezer-api.git@{{ freezer_api_revision }}"
+    - name: oslo_messaging

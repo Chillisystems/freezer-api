@@ -1,0 +1,27 @@
+---
+
+- name: Copy files to freezer directory
+  copy:
+    src: files/freezer/
+    dest: "{{ freezer_home }}"
+    owner: "{{ freezer_user }}"
+    group: "{{ freezer_group }}"
+    backup: yes
+
+- name: Configure freezer-api service
+  template:
+    src: freezer-api.conf.j2
+    dest: "{{ freezer_home }}/freezer-api.conf"
+    owner: "{{ freezer_user }}"
+    group: "{{ freezer_group }}"
+    backup: yes
+
+#
+# Configure rsyslog to capture systemd logs
+#
+
+- name: Configure systemd services
+  include_role:
+    name: systemd-service
+  vars:
+    systemd_service: "{{ freezer_services }}"

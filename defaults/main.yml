@@ -5,8 +5,8 @@ freezer_home: /etc/freezer
 freezer_user: freezer
 freezer_group: freezer
 
-freezer_revision: stable/ocata
-freezer_api_revision: stable/ocata
+freezer_revision: stable/queens
+freezer_api_revision: stable/queens
 
 freezer_port: 9090
 freezer_bind_host: 0.0.0.0

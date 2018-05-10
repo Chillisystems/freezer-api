@@ -117,9 +117,6 @@ allowed_origin = * #https://{{ env_external_url }}
 # (list value)
 #allow_headers =
 
-: freezer
-openstack_identity_freezer_password: freezer
-
 [keystone_authtoken]
 auth_uri = {{ openstack_identity_auth_url }}/v3
 auth_url: {{ openstack_identity_auth_url }}/v3

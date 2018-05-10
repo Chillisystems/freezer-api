@@ -13,5 +13,4 @@ galaxy_info:
   - openstack
   - system
 
-dependencies:
-  - role: systemd-service
+dependencies: []

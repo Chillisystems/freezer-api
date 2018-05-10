@@ -19,7 +19,6 @@
 #
 # Configure rsyslog to capture systemd logs
 #
-
 - name: Configure systemd services
   include_role:
     name: systemd-service

@@ -117,23 +117,26 @@ allowed_origin = * #https://{{ env_external_url }}
 # (list value)
 #allow_headers =
 
+: freezer
+openstack_identity_freezer_password: freezer
+
 [keystone_authtoken]
-auth_uri = {{ openstack_identity_admin_url }}/v3
-auth_url: {{ openstack_identity_public_url }}/v3
+auth_uri = {{ openstack_identity_auth_url }}/v3
+auth_url: {{ openstack_identity_auth_url }}/v3
 auth_type = password
 
 service_token_roles_required = true
 
 region_name = {{ openstack_identity_region }}
 
-username = freezer
+username = {{ openstack_identity_freezer_user_name }}
 password = {{ openstack_identity_freezer_password }}
 
-project_name = service
-project_domain_name = default
-user_domain_name = default
+project_name = {{ openstack_identity_project_name }}
+project_domain_name = {{ openstack_identity_project_domain }}
+user_domain_name = {{ openstack_identity_domain }}
 
-identity_uri = {{ openstack_identity_public_url }}
+identity_uri = {{ openstack_identity_auth_url }}
 
 http_connect_timeout = 100
 http_request_max_retries = 5
@@ -150,14 +153,14 @@ policy_file = policy.json
 config_file = freezer-paste.ini
 
 [storage]
+backend = elasticsearch
 
+driver = freezer_api.storage.elastic.ElasticSearchEngine
+
+[elasticsearch]
 hosts = http://freezer-backend-1:9200
 index = freezer
 
 #timeout = 60
 #retries = 20
 #number_of_replicas = 0
-
-backend = elasticsearch
-
-driver = freezer_api.storage.elastic.ElasticSearchEngine

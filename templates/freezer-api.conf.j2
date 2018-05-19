@@ -119,7 +119,7 @@ allowed_origin = * #https://{{ env_external_url }}
 
 [keystone_authtoken]
 auth_uri = {{ openstack_identity_auth_url }}/v3
-auth_url: {{ openstack_identity_auth_url }}/v3
+auth_url = {{ openstack_identity_auth_url }}/v3
 auth_type = password
 
 service_token_roles_required = true

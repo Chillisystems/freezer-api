@@ -16,6 +16,11 @@
     owner: '{{ freezer_user }}'
     path: '{{ freezer_home }}'
 
+- name: Install latest pyopenssl
+  pip:
+    name: pyopenssl
+    state: latest
+
 - name: Install freezer-api
   pip:
     name: '{{ item.name }}'

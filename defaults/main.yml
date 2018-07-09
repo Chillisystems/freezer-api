@@ -12,6 +12,8 @@ freezer_port: 9090
 freezer_bind_host: 0.0.0.0
 freezer_wait_for_period: 10
 
+freezer_elasticsearch_host: freezer-backend-1
+
 freezer_services:
    - service_name: freezer-api.service
      service_enabled: yes

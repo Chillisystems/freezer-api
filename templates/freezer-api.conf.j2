@@ -155,7 +155,7 @@ backend = elasticsearch
 driver = freezer_api.storage.elastic.ElasticSearchEngine
 
 [elasticsearch]
-hosts = http://freezer-backend-1:9200
+hosts = http://{{ freezer_elasticsearch_host }}:9200
 index = freezer
 
 #timeout = 60
